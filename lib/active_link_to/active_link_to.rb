@@ -76,15 +76,24 @@ module ActiveLinkTo
   def is_active_link?(url, condition = nil)
     original_url = url
     url = URI::parse(url).path
+    routes = Rails.application.routes
+    request_path = request.fullpath
+
+    if request_path == '/'
+      if (routes.recognize_path "/") == (routes.recognize_path url)
+        request_path = url
+      end
+    end
+
     case condition
     when :inclusive, nil
-      !request.fullpath.match(/^#{Regexp.escape(url).chomp('/')}(\/.*|\?.*)?$/).blank?
+      !request_path.match(/^#{Regexp.escape(url).chomp('/')}(\/.*|\?.*)?$/).blank?
     when :exclusive
-      !request.fullpath.match(/^#{Regexp.escape(url)}\/?(\?.*)?$/).blank?
+      !request_path.match(/^#{Regexp.escape(url)}\/?(\?.*)?$/).blank?
     when :exact
-      request.fullpath == original_url
+      request_path == original_url
     when Regexp
-      !request.fullpath.match(condition).blank?
+      !request_path.match(condition).blank?
     when Array
       controllers = [*condition[0]]
       actions     = [*condition[1]]

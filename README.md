@@ -1,3 +1,13 @@
+Modifications
+-------------
+
+Normally active_link_to have problem setting link active when you are on root page so address consist only of (protocol and) domain name like `http://example.com` without `controller/action` part
+
+By slight modification using rails router you can convert path into hash with controler and action parameters and compare routes using this knowledge, so `/` and `/homepage` will generate identical parameters hashes
+
+Original readme.md
+------------------
+
 # active_link_to
 [![Gem Version](https://img.shields.io/gem/v/active_link_to.svg?style=flat)](http://rubygems.org/gems/active_link_to) [![Gem Downloads](https://img.shields.io/gem/dt/active_link_to.svg?style=flat)](http://rubygems.org/gems/active_link_to) [![Build Status](https://img.shields.io/travis/comfy/active_link_to.svg?style=flat)](https://travis-ci.org/comfy/active_link_to)
 
